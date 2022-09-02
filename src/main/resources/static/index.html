@@ -1,18 +1,76 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Your first Spring application</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    </head>
-    <body>
-        <p><a href="/hello">Greet the world!</a></p>
-
-        <form action="/hello2" method="POST" id="nameForm">
-            <div>
-                <label for="nameField">How should the app call you?</label>
-                <input name="myName2" id="nameField">
-                <button>Greet me!</button>
-            </div>
+	<head>
+		<title>Customer CRM</title>
+		 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+	
+	<body>
+		<form action="/add" method="post">
+			<p>Let's add a customer.</p>
+			
+			<div>
+				<label for="firstName">First Name</label>
+				<input type="text" name="first" id="first">
+			</div>
+			
+			<div>
+				<label for="lastName">Last Name</label>
+				<input type="text" name="last" id="last">
+			</div>
+			
+			<div>
+				<input type="submit" value="Add" >
+			</div>
+		</form>
+		<hr/>
+		<br/>
+	
+		<form action="/list" method="GET">
+            <button id="getBtn">List customers</button>
         </form>
-    </body>
+        
+        
+        <script>
+        const getBtn = document.getElementById("getBtn")
+        const addBtn = document.getElementById("addBtn")
+        
+        addBtn.addEventListener('click',(event)=>{
+				event.preventDefault();
+				fetch('/add',{
+				    method: "POST",
+				    body: JSON.stringify({first: "Test", last: "Deo"})
+				})
+				.then(function(res){
+					console.log(res)
+				})
+				.catch(function(err){
+					console.log(err)
+				})
+		})
+        
+        getBtn.addEventListener('click',getCustomers)
+        
+        /// addiing customer
+        
+        function addCustomer(e)
+        {
+			e.preventDefault();
+		}
+        
+        // getting customers
+    	function  getCustomers(){
+		fetch('/list',{
+			 method: "GET",
+		})
+		.then(res=>{
+			console.log(res)
+		})
+		.catch(err=> console.log(err))
+		}
+        
+        </script>
+	</body>
+	
+	
 </html>
